@@ -1,0 +1,18 @@
+What is react.js ?
+-> its javascript library for creating complex UI frontend
+-> created by meta (facebook) in 2013
+
+What was the problem?
+-> even for showing a small change, suppose, count of messgaes, in order to update the value i need to reload the entire page
+
+Solution using React.js ?
+-> component based architecture --> entire ui is divided into smaller components
+-> suppose notification icon is a component, so to show number of count, only that components get re rendered rather than entire page
+
+Prerequisite of React?
+-> basics of javascript --> variables, loops, conditionals
+-> functions -> arrow function, return
+-> arrays -> map, filter, reduce, foreach, destructuring
+-> Objects
+-> ES6+ features -> let, const
+-> asynchronous -> async/await, promises, fetch api
