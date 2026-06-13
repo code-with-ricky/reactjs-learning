@@ -1,0 +1,22 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #111;
+  color: #eee;
+}
+
+.card {
+  background-color: maroon;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+  color: white;
+}
+
+.navbar {
+  background-color: lightblue;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+}
