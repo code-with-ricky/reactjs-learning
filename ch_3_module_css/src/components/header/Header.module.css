@@ -1,0 +1,20 @@
+.header {
+    margin: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: tan;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: crimson;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.btn:hover{
+    background-color: maroon;
+}
