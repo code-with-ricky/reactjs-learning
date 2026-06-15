@@ -39,7 +39,7 @@ const StudentRegistrationForm = () => {
   }
 
   const submitData = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // form has default behaviour on submit, page gets reloaded, we generally prevent it so that we can have something of out own
     console.log("Student name: ", studentData.firstName, studentData.lastName);
     console.log("Email: ", studentData.email);
     console.log("Phone No.: ", studentData.phone);
@@ -82,6 +82,7 @@ const StudentRegistrationForm = () => {
               type="text"
               placeholder="John"
               className="input-field"
+            //   two way binding
               value={studentData.firstName}
               onChange={updateData}
             />
