@@ -5,7 +5,7 @@
 - React components have two jobs:
   - Render UI
 
-  ```js
+  ```jsx
   function App() {
     return <h1>Hello</h1>;
   }
@@ -23,7 +23,7 @@
     - These are called side effects.
     - A side effect is anything that interacts with the outside world.
 
-  ```js
+  ```jsx
   fetch(...)
   setInterval(...)
   localStorage.setItem(...)
@@ -32,7 +32,7 @@
 
   React needs a special place for these operations.
 
-  ```js
+  ```jsx
   useEffect();
   ```
 
@@ -42,7 +42,7 @@
 
 - Before hooks, class components had:
 
-```js
+```jsx
 componentDidMount();
 componentDidUpdate();
 componentWillUnmount();
@@ -51,7 +51,7 @@ componentWillUnmount();
 - Hooks replaced these
 - Think useEffect() as combination of:
 
-```js
+```jsx
 componentDidMount;
 componentDidUpdate;
 componentWillUnmount;
@@ -61,7 +61,7 @@ componentWillUnmount;
 
 # 3. Basic Syntax
 
-```js
+```jsx
 import { useEffect } from "react";
 
 useEffect(() => {
@@ -94,7 +94,7 @@ Effect Runs
 
 - Syntax:
 
-```js
+```jsx
 useEffect(() => {}, []);
 ```
 
@@ -103,7 +103,7 @@ The second argument controls when the effect runs
 - `case 1: No Dependency Array`:
   - runs on every render
 
-  ```js
+  ```jsx
   useEffect(() => {
     console.log("Run at every render");
   });
@@ -113,7 +113,7 @@ The second argument controls when the effect runs
   - only once after initial render
   - equivalent to `componentDidMount()`
 
-  ```js
+  ```jsx
   useEffect(() => {
     console.log("Run at initial render only");
   }, []);
@@ -132,7 +132,7 @@ The second argument controls when the effect runs
 # 5. Fetch Data automatically
 - using useEffect with empty dependency array, fetches data when page initially renders
 
-    ```js
+    ```jsx
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
@@ -156,7 +156,7 @@ The second argument controls when the effect runs
 
 ## Example 1:
 
-```js
+```jsx
     const [cout, setCount] = useState(0);
 
     useEffect(() => {
@@ -171,7 +171,7 @@ The second argument controls when the effect runs
 
 ## Example 2:
 
-```js
+```jsx
     useEffect(() => {
         getTodos();
     });
@@ -181,7 +181,7 @@ The second argument controls when the effect runs
 
 # 7. Multiple Dependencies
 
-```js
+```jsx
     useEffect(() => {
     console.log("Changed");
     }, [count, name]);
@@ -198,7 +198,7 @@ The second argument controls when the effect runs
     OR
     - when components unmounts
 
-    ```js
+    ```jsx
     useEffect(() => {
         return () => {
             // cleanup
@@ -209,7 +209,7 @@ The second argument controls when the effect runs
 ## Example 1: Timer
 - In following code snippet, `Memory Leak` happens
 
-    ```js
+    ```jsx
     useEffect(() => {
         setInterval(() => {
             console.log("Tick");
@@ -218,7 +218,7 @@ The second argument controls when the effect runs
     ```
 
 - Solution:
-    ```js
+    ```jsx
     useEffect(() => {
         const timer = setInterval(() => {
             console.log("Tick");
@@ -233,7 +233,7 @@ The second argument controls when the effect runs
 ## Example 2: Event Listener
 - In following code snippet, `listener never removed`
 
-    ```js
+    ```jsx
     useEffect(() => {
         window.addEventListener("resize", handleResize);
     }, []);
@@ -241,7 +241,7 @@ The second argument controls when the effect runs
 
 - Solution
 
-    ```js
+    ```jsx
     useEffect(() => {
         window.addEventListener("resize", handleResize);
 
@@ -250,6 +250,102 @@ The second argument controls when the effect runs
         };
     }, []);
     ```
+
+- `What problem is solving ?`
+    - Whenever your effect creates something that continues to exist after the effect finishes, React needs a way to remove it.
+
+    - Example:
+        - Timer keeps running
+        - Event listener keeps listening
+        - websockets stays connected
+        - subscription keeps receiving updates
+        - pending api requests continues
+
+## Common useEffect Cleanup Patterns
+
+| Setup                            | Cleanup                 |
+| -------------------------------- | ----------------------- |
+| `setInterval()`                  | `clearInterval()`       |
+| `setTimeout()`                   | `clearTimeout()`        |
+| `addEventListener()`             | `removeEventListener()` |
+| `new WebSocket()`                | `socket.close()`        |
+| `subscribe()`                    | `unsubscribe()`         |
+| `watchPosition()`                | `clearWatch()`          |
+| `fetch()` with `AbortController` | `controller.abort()`    |
+| `Chart.js` instance              | `chart.destroy()`       |
+| Media stream (`getUserMedia`)    | `track.stop()`          |
+
+### Rule of Thumb
+
+If your `useEffect` creates something that continues running after the effect finishes, it usually needs cleanup.
+
+Examples:
+
+✅ Timers
+✅ Event listeners
+✅ WebSockets
+✅ Subscriptions
+✅ Polling
+✅ Geolocation watchers
+✅ Media streams
+✅ Third-party library instances
+
+Usually no cleanup needed:
+
+❌ `console.log()`
+❌ Updating `document.title`
+❌ Writing to `localStorage`
+❌ Simple calculations
+❌ Data transformations
+
+### Mental Model
+
+```txt
+useEffect
+   ↓
+Setup
+   ↓
+Something stays alive
+   ↓
+Cleanup
+```
+
+Examples:
+
+```jsx
+useEffect(() => {
+  const timer = setInterval(() => {
+    console.log("Tick");
+  }, 1000);
+
+  return () => {
+    clearInterval(timer);
+  };
+}, []);
+```
+
+```jsx
+useEffect(() => {
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener(
+      "resize",
+      handleResize
+    );
+  };
+}, []);
+```
+
+```jsx
+useEffect(() => {
+  const socket = new WebSocket(url);
+
+  return () => {
+    socket.close();
+  };
+}, []);
+```
 
 ---
 
@@ -276,14 +372,14 @@ The second argument controls when the effect runs
 # 10. Real-World Examples
 
 ## Example 1: Local Storage
-```js
+```jsx
     useEffect(() => {
         localStorage.setItem("theme", theme);
     }, [theme]);
 ```
 
 ## Example 2: Search API
-```js
+```jsx
     useEffect(() => {
         fetchResults(searchTerm); 
     }, [searchTerm]);
@@ -295,7 +391,7 @@ The second argument controls when the effect runs
 - Rather than repeating useEffect everywhere, create custom hook
 - This is how large react apps are built
 
-```js
+```jsx
     function useDocumentTitle(title) {
         useEffect(() => {
             document.title = title;
@@ -313,7 +409,7 @@ The second argument controls when the effect runs
 - Every `reactive value` used inside an effect should usually appear in the dependency array.
 
 - bad example: uses `count` but not included in dependency array
-```js
+```jsx
     useEffect(() => {
     console.log(count);
     }, []);
@@ -322,7 +418,7 @@ The second argument controls when the effect runs
 - EsLint gives warning: `Missing dependency`
 
 - Solution:
-```js
+```jsx
     useEffect(() => {
         console.log(count);
     }, [count]);
