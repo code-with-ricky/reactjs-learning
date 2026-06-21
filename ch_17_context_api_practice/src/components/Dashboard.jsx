@@ -5,6 +5,7 @@ import Content from "./Content";
 
 const Dashboard = () => {
   const { theme } = useContext(ThemeContext);
+  console.log("Dashboard rendered");
   return (
     <div
       className={`flex h-screen w-screen ${theme === "light" ? "bg-[#eee]" : "bg-[#333]"}`}

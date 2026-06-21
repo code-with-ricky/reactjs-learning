@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useUser } from "../contexts/UserContext.jsx";
 
 const UserAvatar = () => {
-  const user = useContext(UserContext);
+  const user = useUser();
   return (
     <div className="flex items-center gap-3 mb-4">
       <img

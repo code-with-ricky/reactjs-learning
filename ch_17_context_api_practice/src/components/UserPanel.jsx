@@ -4,6 +4,7 @@ import UserAvatar from "./UserAvatar";
 import ThemeToggleButton from "./ThemeToggleButton";
 
 const UserPanel = () => {
+  console.log("UserPanel re-renders");
   return (
     <div className="p-4 border-t border-gray-200">
       <UserAvatar />
@@ -19,4 +20,4 @@ const UserPanel = () => {
   );
 };
 
-export default UserPanel;
+export default React.memo(UserPanel);

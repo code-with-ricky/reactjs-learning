@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import { CartContext } from "../contexts/CartContext";
+import { useCart } from "../contexts/CartContext";
 
 const Content = () => {
-  const { cart, dispatch } = useContext(CartContext);
+  const { cart, dispatch } = useCart();
   const handleRemove = (itemId) => {
     dispatch({
       type: "REMOVE_ITEM",

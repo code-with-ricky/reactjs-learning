@@ -16,6 +16,8 @@ const Sidebar = () => {
   //   { title: "Settings", icon: <Settings size={20} /> },
   // ];
 
+  console.log("Sidebar re-renders");
+
   return (
     <aside className="w-72 h-screen bg-white shadow-xl flex flex-col border-r border-gray-200">
       {/* Header */}
@@ -50,4 +52,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);

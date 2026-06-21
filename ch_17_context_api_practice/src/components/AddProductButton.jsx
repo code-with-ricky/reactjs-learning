@@ -1,9 +1,8 @@
 import { Plus } from "lucide-react";
-import { useContext } from "react";
-import { CartContext } from "../contexts/CartContext";
+import { useCart } from "../contexts/CartContext";
 
 const AddProductButton = () => {
-  const { dispatch } = useContext(CartContext);
+  const { dispatch } = useCart();
   const handleAdd = () => {
     dispatch({
       type: "ADD_ITEM",
