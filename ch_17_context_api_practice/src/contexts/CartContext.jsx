@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 
 export const CartContext = createContext();
 
@@ -17,8 +24,16 @@ function reducer(state, action) {
 
 export const CartProvider = ({ children }) => {
   const [cart, dispatch] = useReducer(reducer, []);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const value = useMemo(() => ({ cart, dispatch }), [cart, dispatch]);
+  const toggleCartOpen = useCallback(() => {
+    setIsCartOpen((prev) => !prev);
+  }, []);
+
+  const value = useMemo(
+    () => ({ cart, dispatch, isCartOpen, toggleCartOpen }),
+    [cart, dispatch, isCartOpen, toggleCartOpen],
+  );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
